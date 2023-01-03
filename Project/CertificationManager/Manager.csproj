@@ -34,6 +34,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,15 +46,29 @@
   <ItemGroup>
     <Compile Include="CentralDBCertValidator.cs" />
     <Compile Include="CertManager.cs" />
+    <Compile Include="CustomAuthorizationManager.cs" />
+    <Compile Include="CustomAuthorizationPolicy.cs" />
+    <Compile Include="CustomPrincipal.cs" />
     <Compile Include="LocalDBCertValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolesConfig.cs" />
+    <Compile Include="RolesConfigFile.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RolesConfigFile.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{6E548ECB-F440-40A7-915E-A61F6CE7C76E}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RolesConfigFile.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RolesConfigFile.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
