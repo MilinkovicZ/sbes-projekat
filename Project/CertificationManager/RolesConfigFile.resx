@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin" xml:space="preserve">
+  <data name="Admins" xml:space="preserve">
     <value>Read, Modify, Calculate, Administrate</value>
   </data>
-  <data name="Calculator" xml:space="preserve">
+  <data name="Calculators" xml:space="preserve">
     <value>Read, Calculate</value>
   </data>
-  <data name="Modifier" xml:space="preserve">
+  <data name="Modifiers" xml:space="preserve">
     <value>Read, Modify, Calculate</value>
   </data>
-  <data name="Reader" xml:space="preserve">
+  <data name="Readers" xml:space="preserve">
     <value>Read</value>
   </data>
 </root>

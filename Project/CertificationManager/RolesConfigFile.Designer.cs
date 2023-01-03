@@ -63,36 +63,36 @@ namespace Manager {
         /// <summary>
         ///   Looks up a localized string similar to Read, Modify, Calculate, Administrate.
         /// </summary>
-        internal static string Admin {
+        internal static string Admins {
             get {
-                return ResourceManager.GetString("Admin", resourceCulture);
+                return ResourceManager.GetString("Admins", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Read, Calculate.
         /// </summary>
-        internal static string Calculator {
+        internal static string Calculators {
             get {
-                return ResourceManager.GetString("Calculator", resourceCulture);
+                return ResourceManager.GetString("Calculators", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Read, Modify, Calculate.
         /// </summary>
-        internal static string Modifier {
+        internal static string Modifiers {
             get {
-                return ResourceManager.GetString("Modifier", resourceCulture);
+                return ResourceManager.GetString("Modifiers", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Read.
         /// </summary>
-        internal static string Reader {
+        internal static string Readers {
             get {
-                return ResourceManager.GetString("Reader", resourceCulture);
+                return ResourceManager.GetString("Readers", resourceCulture);
             }
         }
     }
