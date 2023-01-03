@@ -8,7 +8,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CertificationManager
+namespace Manager
 {
     public class CentralDBCertValidator : X509CertificateValidator
     {

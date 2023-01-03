@@ -63,9 +63,9 @@
       <Project>{00466946-936D-4BE6-9F80-0C13F25450B5}</Project>
       <Name>CDBContracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CertificationManager\CertificationManager.csproj">
+    <ProjectReference Include="..\CertificationManager\Manager.csproj">
       <Project>{C402A668-C57F-4901-90C3-90DC601ED004}</Project>
-      <Name>CertificationManager</Name>
+      <Name>Manager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{6e548ecb-f440-40a7-915e-a61f6ce7c76e}</Project>

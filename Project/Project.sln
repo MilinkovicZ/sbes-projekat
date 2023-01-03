@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDBContracts", "CDBServices\CDBContracts.csproj", "{00466946-936D-4BE6-9F80-0C13F25450B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationManager", "CertificationManager\CertificationManager.csproj", "{C402A668-C57F-4901-90C3-90DC601ED004}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manager", "CertificationManager\Manager.csproj", "{C402A668-C57F-4901-90C3-90DC601ED004}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

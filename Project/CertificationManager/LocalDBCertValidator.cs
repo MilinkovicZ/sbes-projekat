@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CertificationManager
+namespace Manager
 {
     public class LocalDBCertValidator : X509CertificateValidator
     {
