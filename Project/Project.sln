@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{6E548ECB-F440-40A7-915E-A61F6CE7C76E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDBContracts", "CDBServices\CDBContracts.csproj", "{00466946-936D-4BE6-9F80-0C13F25450B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationManager", "CertificationManager\CertificationManager.csproj", "{C402A668-C57F-4901-90C3-90DC601ED004}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{6E548ECB-F440-40A7-915E-A61F6CE7C76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E548ECB-F440-40A7-915E-A61F6CE7C76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E548ECB-F440-40A7-915E-A61F6CE7C76E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00466946-936D-4BE6-9F80-0C13F25450B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00466946-936D-4BE6-9F80-0C13F25450B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00466946-936D-4BE6-9F80-0C13F25450B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00466946-936D-4BE6-9F80-0C13F25450B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C402A668-C57F-4901-90C3-90DC601ED004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C402A668-C57F-4901-90C3-90DC601ED004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C402A668-C57F-4901-90C3-90DC601ED004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C402A668-C57F-4901-90C3-90DC601ED004}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
