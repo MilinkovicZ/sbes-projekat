@@ -25,6 +25,10 @@ namespace Common
             return list == null ? new List<Expense>() : list;
         }
 
+        public List<Expense> GetExpenses(string region)
+        {
+            return GetExpenses().FindAll(t => t.Region == region);
+        }
         public List<Expense> GetExpenses(List<string> regions)
         {
             return GetExpenses().FindAll(t => regions.Contains(t.Region));
