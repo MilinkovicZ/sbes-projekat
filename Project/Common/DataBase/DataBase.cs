@@ -7,28 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CentralDB
+namespace Common
 {
     public class DataBase
     {
-        static string path = AppDomain.CurrentDomain.BaseDirectory + "DataBase/data.json";
-        public static List<Expense> GetExpenses()
+        string path;
+        public DataBase(string path)
+        {
+           this.path = AppDomain.CurrentDomain.BaseDirectory + path;
+            if (!File.Exists(this.path))
+                File.WriteAllText(path, "{}");
+        }
+        
+        public List<Expense> GetExpenses()
         {
             var list = JsonConvert.DeserializeObject<List<Expense>>(File.ReadAllText(path));
             return list == null ? new List<Expense>() : list;
         }
 
-        public static List<Expense> GetExpenses(List<string> regions)
+        public List<Expense> GetExpenses(List<string> regions)
         {
             return GetExpenses().FindAll(t => regions.Contains(t.Region));
         }
 
-        public static Expense GetExpense(string id)
+        public Expense GetExpense(string id)
         {
             return GetExpenses().Find(t => t.Id == id);
         } 
 
-        public static void Add(Expense expense)
+        public void Add(Expense expense)
         {
             var list = GetExpenses();
             expense.Id = DateTime.Now.ToString("yyyyMMddHHmmssffff");
@@ -36,7 +43,7 @@ namespace CentralDB
             File.WriteAllText(path, JsonConvert.SerializeObject(list));
         }
 
-        public static void Update(Expense expense)
+        public void Update(Expense expense)
         {
             var list = GetExpenses();
             int ind = list.FindIndex(t => t.Id == expense.Id);
@@ -47,7 +54,7 @@ namespace CentralDB
             }
         }
 
-        public static void Delete(string id)
+        public void Delete(string id)
         {
             var list = GetExpenses();
             int ind = list.FindIndex(t => t.Id == id);
@@ -58,7 +65,7 @@ namespace CentralDB
             }
         }
 
-        public static void UpdateAll(List<Expense> expenses)
+        public void UpdateAll(List<Expense> expenses)
         {
             File.WriteAllText(path, JsonConvert.SerializeObject(expenses));
         }

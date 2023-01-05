@@ -32,12 +32,14 @@ namespace CentralDB
             host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertName);
-
             try
             {
                 host.Open();
                 Console.WriteLine("Central Data Base is started.\nPress <enter> to stop ...");
-                Console.ReadLine();
+                new ServerSync();
+                using (Task t = Task.Run(() => ServerSync.Accept()))
+                    Console.ReadLine();
+                ServerSync.Close();
             }
             catch (Exception e)
             {
@@ -47,6 +49,7 @@ namespace CentralDB
             finally
             {
                 host.Close();
+                
             }
         }
     }

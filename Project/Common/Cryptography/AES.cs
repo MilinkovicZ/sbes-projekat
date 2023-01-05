@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,26 @@ namespace Common
 {
     public class AES
     {
-        public static string Encrypt(string secret, string secretKey)
+        static byte[] SerializeObjToByte(object obj)
         {
-            byte[] body = ASCIIEncoding.UTF8.GetBytes(secret);  
+            using (var ms = new MemoryStream())
+            {
+                new BinaryFormatter().Serialize(ms, obj);
+                return ms.ToArray();
+            }
+        }
+
+        static object DeserializeObjToByte(byte[] array)
+        {
+            using (var ms = new MemoryStream(array))
+            {
+               return new BinaryFormatter().Deserialize(ms);
+            }
+        }
+
+        public static byte[] Encrypt(object secret, string secretKey)
+        {
+            byte[] body = SerializeObjToByte(secret);  
             byte[] encryptedBody = null;
 
             AesCryptoServiceProvider aesCryptoProvider = new AesCryptoServiceProvider
@@ -33,12 +51,12 @@ namespace Common
                 }
             }
 
-            return ASCIIEncoding.UTF8.GetString(encryptedBody);
+            return encryptedBody;
         }
 
-        public static string Decrypt(string secret, string secretKey)
+        public static object Decrypt(byte[] secret, string secretKey)
         {
-            byte[] body = ASCIIEncoding.UTF8.GetBytes(secret);
+            byte[] body = secret;
             byte[] decryptedBody = null;
 
             AesCryptoServiceProvider aesCryptoProvider = new AesCryptoServiceProvider
@@ -59,7 +77,7 @@ namespace Common
                 }
             }
 
-            return ASCIIEncoding.UTF8.GetString(decryptedBody);
+            return DeserializeObjToByte(decryptedBody);
         }
     }
 }

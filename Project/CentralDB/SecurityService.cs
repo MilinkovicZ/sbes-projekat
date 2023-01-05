@@ -10,30 +10,31 @@ namespace CentralDB
 {
     public class SecurityService : ISecurityService
     {
+        DataBase db = new DataBase("data.json");
         public void Add(Expense expense)
         {
-            DataBase.Add(expense);
-
-            //slanje dalje
+            db.Add(expense);
+            ServerSync.Send(expense.Region);
         }
 
         public void Delete(string id)
         {
-            DataBase.Delete(id);
-
-            //slanje dalje
+            var obj = db.GetExpense(id);
+            if (obj == null)
+                return;
+            db.Delete(id);
+            ServerSync.Send(obj.Region);
         }
 
         public List<Expense> Read(List<string> regions)
         {
-            return DataBase.GetExpenses(regions);
+            return db.GetExpenses(regions);
         }
 
         public void Update(Expense expense)
         {
-            DataBase.Update(expense);
-
-            //slanje dalje
+            db.Update(expense);
+            ServerSync.Send(expense.Region);
         }
     }
 }
