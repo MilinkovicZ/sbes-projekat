@@ -26,8 +26,10 @@ namespace LocalDB
             // Unos regiona
 
 
-            // Kacenje na host
             WCFClient proxy = new WCFClient(binding, address);
+
+            //Fali Povezivanje
+            WCFService service = new WCFService(proxy);
 
             new ClientSync();
 
