@@ -11,7 +11,7 @@ namespace LocalDB
 {
     class WCFService : ILocalService
     {
-        //TO DO - Decrypt req and encrypt ans
+        //TO DO - Change Key When we figure out how to.
 
         string keyFile = "SecretKey.txt";
         ISecurityService proxy;

@@ -1,4 +1,5 @@
-﻿using Manager;
+﻿using LDBContracts;
+using Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,13 @@ namespace LocalDB
 
 
             WCFClient proxy = new WCFClient(binding, address);
-
-            //Fali Povezivanje
             WCFService service = new WCFService(proxy);
+
+            //Otvaranje Endpoint-a za clienta - Maybe fix
+            NetTcpBinding bindingClient = new NetTcpBinding();
+            string addressClient = "net.tcp://localhost:9998/WCFService";
+            ServiceHost hostClient = new ServiceHost(typeof(WCFService));
+            hostClient.AddServiceEndpoint(typeof(ILocalService), bindingClient, addressClient);
 
             new ClientSync();
 

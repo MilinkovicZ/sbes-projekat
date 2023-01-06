@@ -12,8 +12,7 @@ namespace Client
     class WCFClient : ChannelFactory<ILocalService>, ILocalService, IDisposable
     {
         ILocalService factory;
-        //TO DO - Decrypt ans and encrypt req
-        public WCFClient()
+        public WCFClient(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
         {
             factory = this.CreateChannel();
         }
@@ -96,7 +95,7 @@ namespace Client
         {
             try
             {
-                Console.WriteLine("Sending request for deleting expense!");
+                Console.WriteLine("Sending request for updating month expense usage!");
                 factory.UpdateCurrentMonthUsage(newValue, id);
             }
             catch (Exception e)

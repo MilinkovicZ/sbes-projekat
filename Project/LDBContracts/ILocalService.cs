@@ -11,7 +11,6 @@ namespace LDBContracts
     [ServiceContract]
     public interface ILocalService
     {
-        //TODO - Not sure
         [OperationContract]
         byte[] ReadData();
         [OperationContract]
