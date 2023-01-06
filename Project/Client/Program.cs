@@ -10,6 +10,8 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            //ovde moze kriptovanje takodje 
+            //KURDA NAPRAVI MENU I POZOVI FUNKCIJE IZ SERVISA!!!
         }
     }
 }

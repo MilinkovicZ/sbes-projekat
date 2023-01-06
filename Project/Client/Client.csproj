@@ -52,6 +52,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{6E548ECB-F440-40A7-915E-A61F6CE7C76E}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LDBContracts\LDBContracts.csproj">
       <Project>{d9fa4e42-b60e-4f0c-b90d-f7cdf0bc0569}</Project>
       <Name>LDBContracts</Name>

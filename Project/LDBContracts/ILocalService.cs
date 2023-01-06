@@ -13,9 +13,11 @@ namespace LDBContracts
     {
         //TODO - Not sure
         [OperationContract]
-        List<Expense> ReadData();
+        byte[] ReadData();
         [OperationContract]
-        double GetAverageValue(byte[] region); //ako lokalDb moze da ima vise regiona, ako ne moze onda ne treba parametar.
+        byte[] GetAverageValueForRegion(byte[] region); //ako lokalDb moze da ima vise regiona, ako ne moze onda ne treba parametar.
+        [OperationContract]
+        byte[] GetAverageValueForCity(byte[] city);
         [OperationContract]
         void UpdateCurrentMonthUsage(byte[] newValue, byte[] id);
         [OperationContract]
