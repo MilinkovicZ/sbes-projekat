@@ -10,6 +10,21 @@ namespace Client
 {
     class Program
     {
+        static void PrintList(List<Expense> expenses)
+        {
+            foreach (var e in expenses)
+            {
+                Console.WriteLine($"\tID: {e.Id}");
+                Console.WriteLine($"\tCity: {e.City}");
+                Console.WriteLine($"\tRegion: {e.Region}");
+                Console.WriteLine($"\tYear: {e.Year}");
+                Console.WriteLine($"\tExpenses per month:");
+                foreach (var ex in e.ExpensesPerMonth)
+                {
+                    Console.WriteLine($"\t\t{ex.Key} : {ex.Value}");
+                }
+            }
+        }
         static void Main(string[] args)
         {
             string key = "yo mama"; //OVO POPRAVITI XD
@@ -38,9 +53,8 @@ namespace Client
                     case 1:                        
                         //NEEDS FIXING PROBABLY
                         byte[] encodedData = proxy.ReadData();
-                        List<Expense> expenses = new List<Expense>();
-                        Console.WriteLine("Decrypting expenses data...");
-                        expenses.Add((Expense)AES.Decrypt(encodedData, key));
+                        List<Expense> expenses = AES.Decrypt<List<Expense>>(encodedData, key);
+                        PrintList(expenses);
                         break;
                     case 2:
                         Console.WriteLine("Expense region:");
@@ -49,7 +63,7 @@ namespace Client
                         byte[] cryptedRegionAvg = AES.Encrypt(regionAvg, key);
                         byte[] encodedDataRegionAvg = proxy.GetAverageValueForRegion(cryptedRegionAvg);
                         Console.WriteLine("Decrypting recieved data for region average...");
-                        double dataRegionAvg = (double)AES.Decrypt(encodedDataRegionAvg, key);
+                        double dataRegionAvg = AES.Decrypt<double>(encodedDataRegionAvg, key);
                         Console.WriteLine("Average expense for region: " + regionAvg + " is " + dataRegionAvg + ".");
                         break;
                     case 3:
@@ -59,7 +73,7 @@ namespace Client
                         byte[] cryptedCityAvg = AES.Encrypt(cityAvg, key);
                         byte[] encodedDataCityAvg = proxy.GetAverageValueForCity(cryptedCityAvg);
                         Console.WriteLine("Decrypting recieved data for city average...");
-                        double dataCityAvg = (double)AES.Decrypt(encodedDataCityAvg, key);
+                        double dataCityAvg = AES.Decrypt<double>(encodedDataCityAvg, key);
                         Console.WriteLine("Average expense for city: " + cityAvg + " is " + dataCityAvg + ".");
                         break;
                     case 4:

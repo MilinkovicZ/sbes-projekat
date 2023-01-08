@@ -13,7 +13,6 @@ namespace LocalDB
     {
         //TO DO - Change Key When we figure out how to.
 
-        string keyFile = "SecretKey.txt";
         ISecurityService proxy;
         DataBase db = new DataBase("data.json");
 
@@ -24,14 +23,14 @@ namespace LocalDB
 
         public void AddNew(byte[] expense)
         {
-            Expense decryptedExpense = (Expense)AES.Decrypt(expense, "Yo mama");
+            Expense decryptedExpense = AES.Decrypt<Expense>(expense, "Yo mama");
             Console.WriteLine("Adding new client expense");
             proxy.Add(decryptedExpense);
         }
 
         public void DeleteExpense(byte[] id)
         {
-            string idToDelete = AES.Decrypt(id, "Yo mama").ToString();
+            string idToDelete = AES.Decrypt<string>(id, "Yo mama");
             Console.WriteLine("Deleting expense with ID:" + idToDelete);
             proxy.Delete(idToDelete);
         }
@@ -39,7 +38,7 @@ namespace LocalDB
         public byte[] GetAverageValueForRegion(byte[] region)
         {
             double retVal = 0;            
-            string targetRegion = AES.Decrypt(region, "Yo mama").ToString();
+            string targetRegion = AES.Decrypt<string>(region, "Yo mama");
             List<Expense> expensesInRegion = db.GetExpenses();
             int counter = expensesInRegion.Count;
             foreach (var item in expensesInRegion)
@@ -56,7 +55,7 @@ namespace LocalDB
         public byte[] GetAverageValueForCity(byte[] city)
         {
             double retVal = 0;
-            string targetCity = AES.Decrypt(city, "Yo mama").ToString();
+            string targetCity = AES.Decrypt<string>(city, "Yo mama");
             List<Expense> expensesInRegion = db.GetExpenses().FindAll(e => e.City == targetCity);
             int counter = expensesInRegion.Count;
             foreach (var item in expensesInRegion)
@@ -77,8 +76,8 @@ namespace LocalDB
 
         public void UpdateCurrentMonthUsage(byte[] newValue, byte[] id)
         {
-            double newValueDecrypted = (double)AES.Decrypt(newValue, "Yo mama");
-            string idDecrypted = AES.Decrypt(newValue, "Yo mama").ToString();
+            double newValueDecrypted = AES.Decrypt<double>(newValue, "Yo mama");
+            string idDecrypted = AES.Decrypt<string>(newValue, "Yo mama");
 
             Expense expense = db.GetExpense(idDecrypted);
             expense.ExpensesPerMonth[DateTime.Now.Month] = newValueDecrypted;

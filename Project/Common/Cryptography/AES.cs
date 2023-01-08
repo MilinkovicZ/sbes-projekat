@@ -54,7 +54,7 @@ namespace Common
             return encryptedBody;
         }
 
-        public static object Decrypt(byte[] secret, string secretKey)
+        public static T Decrypt<T>(byte[] secret, string secretKey)
         {
             byte[] body = secret;
             byte[] decryptedBody = null;
@@ -77,7 +77,7 @@ namespace Common
                 }
             }
 
-            return DeserializeObjToByte(decryptedBody);
+            return (T)DeserializeObjToByte(decryptedBody);
         }
     }
 }

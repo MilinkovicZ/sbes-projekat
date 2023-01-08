@@ -1,5 +1,6 @@
 ﻿using LDBContracts;
 using Manager;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,15 @@ namespace LocalDB
             hostClient.AddServiceEndpoint(typeof(ILocalService), bindingClient, addressClient);
 
             new ClientSync();
-
+            DataBase db = new DataBase("data.json");
             using (Task t = Task.Run(() =>
             {
-                string s = ClientSync.Receive();
-                if (myRegions.Contains(s))
-                    proxy.Read(new List<string>() { s });
+                while (true)
+                {
+                    string s = ClientSync.Receive();
+                    if (myRegions.Contains(s))
+                        db.UpdateAll(proxy.Read(myRegions));
+                }
             }))
                 Console.ReadLine();
         }
