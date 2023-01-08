@@ -16,7 +16,7 @@ namespace LocalDB
         ISecurityService factory;
         public WCFClient(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
         {
-            string cltCertName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            string cltCertName = "LocalDB";
 
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
             this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new LocalDBCertValidator();

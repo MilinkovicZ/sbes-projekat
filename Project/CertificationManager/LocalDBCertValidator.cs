@@ -15,7 +15,7 @@ namespace Manager
         public override void Validate(X509Certificate2 certificate)
         {
             X509Certificate2 myCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine,
-                 Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
+                 "LocalDB");
 
             if (!myCert.Issuer.Equals(certificate.Subject))
             {

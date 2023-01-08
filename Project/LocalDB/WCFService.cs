@@ -81,7 +81,7 @@ namespace LocalDB
             string idDecrypted = AES.Decrypt(newValue, "Yo mama").ToString();
 
             Expense expense = db.GetExpense(idDecrypted);
-            expense.ExpensesPerMonth[DateTime.Now.Month.ToString()] = newValueDecrypted;
+            expense.ExpensesPerMonth[DateTime.Now.Month] = newValueDecrypted;
             proxy.Update(expense);
         }
     }
