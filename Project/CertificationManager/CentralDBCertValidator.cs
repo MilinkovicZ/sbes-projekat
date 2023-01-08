@@ -15,9 +15,9 @@ namespace Manager
         public override void Validate(X509Certificate2 certificate)
         {
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine,
-                 Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
+                 Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "CA");
 
-            if (!certificate.Issuer.Equals(srvCert.Issuer))
+            if (!certificate.Issuer.Equals(srvCert.Subject))
             {
                 throw new Exception("Certificate is not from the valid issuer.");
             }
