@@ -12,13 +12,13 @@ namespace Common
         string region;
         string city;
         uint year;
-        Dictionary<string, double> expensesPerMonth;
+        Dictionary<int, double> expensesPerMonth;
 
         public Expense()
         {
-            ExpensesPerMonth = new Dictionary<string, double>();
+            ExpensesPerMonth = new Dictionary<int, double>();
         }
-        public Expense(string id, string region, string city, uint year, Dictionary<string, double> expensesPerMonth)
+        public Expense(string id, string region, string city, uint year, Dictionary<int, double> expensesPerMonth)
         {
             Id = id;
             Region = region;
@@ -31,6 +31,6 @@ namespace Common
         public string Region { get => region; set => region = value; }
         public string City { get => city; set => city = value; }
         public uint Year { get => year; set => year = value; }
-        public Dictionary<string, double> ExpensesPerMonth { get => expensesPerMonth; set => expensesPerMonth = value; }
+        public Dictionary<int, double> ExpensesPerMonth { get => expensesPerMonth; set => expensesPerMonth = value; }
     }
 }

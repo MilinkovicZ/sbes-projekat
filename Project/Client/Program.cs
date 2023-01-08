@@ -22,39 +22,27 @@ namespace Client
 
             while (true)
             {
-                Console.WriteLine("1 - Add new expense");
-                Console.WriteLine("2 - Read expense data");
-                Console.WriteLine("3 - Get average value for region");
-                Console.WriteLine("4 - Get average value for city");
-                Console.WriteLine("5 - Update expense value for month");
+                Console.WriteLine("1 - Read expense data");  //Read
+                Console.WriteLine("2 - Get average value for region"); //Read + Calculate
+                Console.WriteLine("3 - Get average value for city");
+                Console.WriteLine("4 - Update expense value for month"); //Read + Modify
+                Console.WriteLine("5 - Add new expense"); //Read + Admin
                 Console.WriteLine("6 - Delete existing expense");
-                Console.WriteLine("7 - Get average value for city");
+                Console.WriteLine("7 - Quit");
                 Console.WriteLine("Choose command:");                
 
                 int commandNumber = int.Parse(Console.ReadLine());
 
                 switch (commandNumber)
                 {
-                    case 1:
-                        Console.WriteLine("Expense ID:");
-                        string id = Console.ReadLine();
-                        Console.WriteLine("Expense region:");
-                        string region = Console.ReadLine();
-                        Console.WriteLine("Expense city:");
-                        string city = Console.ReadLine();
-                        Expense expense = new Expense(id, region, city, (uint)DateTime.Now.Year, new Dictionary<string, double>());
-                        Console.WriteLine("Encrypting expense for safety reasons...");
-                        byte[] cryptedExpense = AES.Encrypt(expense, key);
-                        proxy.AddNew(cryptedExpense);
-                        break;
-                    case 2:
+                    case 1:                        
                         //NEEDS FIXING PROBABLY
                         byte[] encodedData = proxy.ReadData();
                         List<Expense> expenses = new List<Expense>();
                         Console.WriteLine("Decrypting expenses data...");
                         expenses.Add((Expense)AES.Decrypt(encodedData, key));
                         break;
-                    case 3:
+                    case 2:
                         Console.WriteLine("Expense region:");
                         string regionAvg = Console.ReadLine();
                         Console.WriteLine("Encrypting regionAvg for safety reasons...");
@@ -64,7 +52,7 @@ namespace Client
                         double dataRegionAvg = (double)AES.Decrypt(encodedDataRegionAvg, key);
                         Console.WriteLine("Average expense for region: " + regionAvg + " is " + dataRegionAvg + ".");
                         break;
-                    case 4:
+                    case 3:
                         Console.WriteLine("Expense city:");
                         string cityAvg = Console.ReadLine();
                         Console.WriteLine("Encrypting cityAvg for safety reasons...");
@@ -74,7 +62,7 @@ namespace Client
                         double dataCityAvg = (double)AES.Decrypt(encodedDataCityAvg, key);
                         Console.WriteLine("Average expense for city: " + cityAvg + " is " + dataCityAvg + ".");
                         break;
-                    case 5:
+                    case 4:
                         Console.WriteLine("Expense ID:");
                         string idUpdate = Console.ReadLine();
                         Console.WriteLine("New month expense usage:");
@@ -83,6 +71,43 @@ namespace Client
                         byte[] idUpdateEncrypted = AES.Encrypt(idUpdate, key);
                         byte[] usageEncrypted = AES.Encrypt(usage, key);
                         proxy.UpdateCurrentMonthUsage(usageEncrypted, idUpdateEncrypted);
+                        break;
+                    case 5:
+                        Console.WriteLine("Expense ID:");
+                        string id = Console.ReadLine();
+                        Console.WriteLine("Expense region:");
+                        string region = Console.ReadLine();
+                        Console.WriteLine("Expense city:");
+                        string city = Console.ReadLine();
+                        Console.WriteLine("Expense year:");
+                        uint year = uint.Parse(Console.ReadLine());
+                        Dictionary<int, double> temp = new Dictionary<int, double>();
+                        while (true)
+                        {
+                            Console.WriteLine("Enter 'x' to stop entering values");
+                            Console.WriteLine("Enter month in number [1-12]: ");
+                            string s = Console.ReadLine();
+                            if (s == "x")
+                                break;
+                            int month = int.Parse(s);
+                            if(month < 1 || month > 12)
+                            {
+                                Console.WriteLine("Enter valid month number");
+                                continue;
+                            }
+                            Console.WriteLine("Enter usage value for " + month + ". month: ");
+                            double usageMonth = double.Parse(Console.ReadLine());
+                            if(usageMonth < 0)
+                            {
+                                Console.WriteLine("Enter a valid usage");
+                                continue;
+                            }
+                            temp.Add(month, usageMonth);
+                        }
+                        Expense expense = new Expense(id, region, city, year, temp);
+                        Console.WriteLine("Encrypting expense for safety reasons...");
+                        byte[] cryptedExpense = AES.Encrypt(expense, key);
+                        proxy.AddNew(cryptedExpense);
                         break;
                     case 6:
                         Console.WriteLine("Expense ID:");
