@@ -63,7 +63,12 @@ namespace LocalDB
 
             //Otvaranje Endpoint-a za clienta - Maybe fix
             NetTcpBinding bindingClient = new NetTcpBinding();
-            string addressClient = "net.tcp://localhost:9998/WCFService";
+            string addressClient = "net.tcp://localhost:" + port.ToString() + "/WCFService";
+
+            binding.Security.Mode = SecurityMode.Transport;
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+
             ServiceHost hostClient = new ServiceHost(typeof(WCFService));
             hostClient.AddServiceEndpoint(typeof(ILocalService), bindingClient, addressClient);
 
@@ -78,7 +83,11 @@ namespace LocalDB
                         db.UpdateAll(proxy.Read(myRegions));
                 }
             }))
+            {
+                Console.WriteLine("Started Everything...");
+
                 Console.ReadLine();
+            }
         }
     }
 }

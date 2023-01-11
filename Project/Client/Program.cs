@@ -45,7 +45,12 @@ namespace Client
             string key = SecretKey.LoadKey(port);
 
             NetTcpBinding binding = new NetTcpBinding();
-            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9998/WCFService"));
+            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:" + port.ToString() + "/WCFService"));
+
+            binding.Security.Mode = SecurityMode.Transport;
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+
             WCFClient proxy = new WCFClient(binding,address);
 
             Console.WriteLine("WELCOME TO EXPENSE PROGRAM!\n\n");
