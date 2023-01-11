@@ -59,19 +59,21 @@ namespace LocalDB
                 return;
 
             WCFClient proxy = new WCFClient(binding, address);
-            WCFService service = new WCFService(proxy, SecretKey.LoadKey(port));
+            ServiceProperties.Key = SecretKey.LoadKey(port);
+            ServiceProperties.Proxy = proxy;
 
             //Otvaranje Endpoint-a za clienta - Maybe fix
             NetTcpBinding bindingClient = new NetTcpBinding();
             string addressClient = "net.tcp://localhost:" + port.ToString() + "/WCFService";
 
-            binding.Security.Mode = SecurityMode.Transport;
-            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
-            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+            //binding.Security.Mode = SecurityMode.Transport;
+            //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+            //binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 
             ServiceHost hostClient = new ServiceHost(typeof(WCFService));
             hostClient.AddServiceEndpoint(typeof(ILocalService), bindingClient, addressClient);
 
+            hostClient.Open();
             new ClientSync();
             DataBase db = new DataBase("data.json");
             using (Task t = Task.Run(() =>
@@ -85,9 +87,9 @@ namespace LocalDB
             }))
             {
                 Console.WriteLine("Started Everything...");
-
                 Console.ReadLine();
             }
+            Console.ReadLine();
         }
     }
 }

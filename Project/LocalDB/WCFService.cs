@@ -16,10 +16,10 @@ namespace LocalDB
         ISecurityService proxy;
         DataBase db = new DataBase("data.json");
         string key;
-        public WCFService(ISecurityService proxy, string key)
+        public WCFService()
         {
-            this.proxy = proxy;
-            this.key = key;
+            this.proxy = ServiceProperties.Proxy;
+            this.key = ServiceProperties.Key;
         }
 
         public void DeleteExpense(byte[] id)
@@ -99,7 +99,7 @@ namespace LocalDB
             }
         }
 
-        public List<byte[]> ReadData(byte[] region)
+        public List<byte[]> ReadDataRegion(byte[] region)
         {
             var list = db.GetExpenses().FindAll(t => t.Region == AES.Decrypt(region, key));
             var ret = new List<byte[]>();

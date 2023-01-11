@@ -17,12 +17,13 @@ namespace Client
             factory = this.CreateChannel();
         }
 
-        public void AddNew(byte[] expense)
+
+        public void AddNew(byte[] region, byte[] year, byte[] city, Dictionary<byte[], byte[]> expensesPerMonth)
         {
             try
             {
-                Console.WriteLine("Sending request for adding new expense!");
-                factory.AddNew(expense);
+                Console.WriteLine("Sending request for adding expense!");
+                factory.AddNew(region, year, city, expensesPerMonth);
             }
             catch (Exception e)
             {
@@ -75,33 +76,45 @@ namespace Client
             return retVal;
         }
 
-        public byte[] ReadData()
+        public List<byte[]> ReadDataRegion(byte[] region)
         {
-            byte[] retVal = null;
+            List<byte[]> retVal = null;
             try
             {
-                Console.WriteLine("Sending request for all expenses!");
+                retVal = factory.ReadDataRegion(region);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return retVal;
+        }
+
+
+        public void UpdateCurrentMonthUsage(byte[] region, byte[] city, byte[] value)
+        {
+            try
+            {
+                factory.UpdateCurrentMonthUsage(region, city, value);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public List<byte[]> ReadData()
+        {
+            List<byte[]> retVal = null;
+            try
+            {
                 retVal = factory.ReadData();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
             return retVal;
-        }
-
-        public void UpdateCurrentMonthUsage(byte[] newValue, byte[] id)
-        {
-            try
-            {
-                Console.WriteLine("Sending request for updating month expense usage!");
-                factory.UpdateCurrentMonthUsage(newValue, id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
     }
 }

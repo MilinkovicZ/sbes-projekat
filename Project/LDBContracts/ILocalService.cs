@@ -14,7 +14,7 @@ namespace LDBContracts
         [OperationContract]
         List<byte[]> ReadData();
         [OperationContract]
-        List<byte[]> ReadData(byte[] region);
+        List<byte[]> ReadDataRegion(byte[] region);
         [OperationContract]
         byte[] GetAverageValueForRegion(byte[] region); //ako lokalDb moze da ima vise regiona, ako ne moze onda ne treba parametar.
         [OperationContract]

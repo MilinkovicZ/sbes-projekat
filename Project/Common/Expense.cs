@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    [Serializable()]
+    [Serializable]
     public class Expense
     {
         string id;

@@ -47,9 +47,9 @@ namespace Client
             NetTcpBinding binding = new NetTcpBinding();
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:" + port.ToString() + "/WCFService"));
 
-            binding.Security.Mode = SecurityMode.Transport;
-            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
-            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+            //binding.Security.Mode = SecurityMode.Transport;
+            //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+            //binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 
             WCFClient proxy = new WCFClient(binding,address);
 
@@ -58,12 +58,13 @@ namespace Client
             while (true)
             {
                 Console.WriteLine("1 - Read expense data");  //Read
-                Console.WriteLine("2 - Get average value for region"); //Read + Calculate
-                Console.WriteLine("3 - Get average value for city");
-                Console.WriteLine("4 - Update expense value for month"); //Read + Modify
-                Console.WriteLine("5 - Add new expense"); //Read + Admin
-                Console.WriteLine("6 - Delete existing expense");
-                Console.WriteLine("7 - Quit");
+                Console.WriteLine("2 - Read expense data for region"); //Read
+                Console.WriteLine("3 - Get average value for region"); //Read + Calculate
+                Console.WriteLine("4 - Get average value for city"); //Read + Calculate
+                Console.WriteLine("5 - Update expense value for month"); //Read + Modify
+                Console.WriteLine("6 - Add new expense"); //Read + Admin
+                Console.WriteLine("7 - Delete existing expense"); //Read + Admin
+                Console.WriteLine("0 - Quit");
                 Console.WriteLine("Choose command:");                
 
                 int commandNumber = int.Parse(Console.ReadLine());
@@ -71,17 +72,15 @@ namespace Client
                 switch (commandNumber)
                 {
                     case 1:
-                        //NEEDS FIXING PROBABLY
                         try
                         {
-                            byte[] encodedData = proxy.ReadData();
+                            var encodedData = proxy.ReadData();
                             if (encodedData == null)
                             {
                                 Console.WriteLine("There is no data.");
                                 break;
                             }
-                            List<Expense> expenses = AES.Decrypt<List<Expense>>(encodedData, key);
-                            PrintList(expenses);
+                            encodedData.ForEach(t => Console.WriteLine(AES.Decrypt(t, key)));
                         }
                         catch (Exception e)
                         {
@@ -90,6 +89,29 @@ namespace Client
                         }
                         break;
                     case 2:
+                        try
+                        {
+                            Console.WriteLine("Expense region:");
+                            string regionRead = Console.ReadLine();
+                            if (String.IsNullOrEmpty(regionRead))
+                            {
+                                Console.WriteLine("There is no data.");
+                                break;
+                            }
+                            var encodedData = proxy.ReadDataRegion(AES.Encrypt(regionRead, key));
+                            if (encodedData == null)
+                            {
+                                Console.WriteLine("There is no data.");
+                                break;
+                            }
+                            encodedData.ForEach(t => Console.WriteLine(AES.Decrypt(t, key)));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        break;
+                    case 3:
                         try
                         {
                             Console.WriteLine("Expense region:");
@@ -108,7 +130,7 @@ namespace Client
                                 break;
                             }
                             Console.WriteLine("Decrypting recieved data for region average...");
-                            double dataRegionAvg = AES.Decrypt<double>(encodedDataRegionAvg, key);
+                            double dataRegionAvg = double.Parse(AES.Decrypt(encodedDataRegionAvg, key));
                             Console.WriteLine("Average expense for region: " + regionAvg + " is " + dataRegionAvg + ".");
                         }
                         catch (Exception e)
@@ -117,7 +139,7 @@ namespace Client
                             Console.WriteLine(e.Message);
                         }
                         break;
-                    case 3:
+                    case 4:
                         try
                         {
                             Console.WriteLine("Expense city:");
@@ -136,7 +158,7 @@ namespace Client
                                 break;
                             }
                             Console.WriteLine("Decrypting recieved data for city average...");
-                            double dataCityAvg = AES.Decrypt<double>(encodedDataCityAvg, key);
+                            double dataCityAvg = double.Parse(AES.Decrypt(encodedDataCityAvg, key));
                             Console.WriteLine("Average expense for city: " + cityAvg + " is " + dataCityAvg + ".");
                         }
                         catch (Exception e)
@@ -145,12 +167,19 @@ namespace Client
                             Console.WriteLine(e.Message);
                         }
                         break;
-                    case 4:
+                    case 5:
                         try
                         {
-                            Console.WriteLine("Expense ID:");
-                            string idUpdate = Console.ReadLine();
-                            if (String.IsNullOrEmpty(idUpdate))
+                            Console.WriteLine("Region:");
+                            string regionUpdate = Console.ReadLine();
+                            if (String.IsNullOrEmpty(regionUpdate))
+                            {
+                                Console.WriteLine("There is no data.");
+                                break;
+                            }
+                            Console.WriteLine("City:");
+                            string cityUpdate = Console.ReadLine();
+                            if (String.IsNullOrEmpty(cityUpdate))
                             {
                                 Console.WriteLine("There is no data.");
                                 break;
@@ -163,26 +192,19 @@ namespace Client
                                 break;
                             }
                             Console.WriteLine("Encrypting month expense usage for safety reasons...");
-                            byte[] idUpdateEncrypted = AES.Encrypt(idUpdate, key);
-                            byte[] usageEncrypted = AES.Encrypt(usage, key);
-                            proxy.UpdateCurrentMonthUsage(usageEncrypted, idUpdateEncrypted);
+                
+                            proxy.UpdateCurrentMonthUsage(AES.Encrypt(regionUpdate, key), 
+                                AES.Encrypt(cityUpdate, key), 
+                                AES.Encrypt(usage.ToString(), key));
                         }
                         catch (Exception e)
                         {
-
                             Console.WriteLine(e.Message);
                         }
                         break;
-                    case 5:
+                    case 6:
                         try
                         {
-                            Console.WriteLine("Expense ID:");
-                            string id = Console.ReadLine();
-                            if (String.IsNullOrEmpty(id))
-                            {
-                                Console.WriteLine("There is no data.");
-                                break;
-                            }
                             Console.WriteLine("Expense region:");
                             string region = Console.ReadLine();
                             if (String.IsNullOrEmpty(region))
@@ -198,8 +220,8 @@ namespace Client
                                 break;
                             }
                             Console.WriteLine("Expense year:");
-                            uint year = uint.Parse(Console.ReadLine());
-                            Dictionary<int, double> temp = new Dictionary<int, double>();
+                            int year = int.Parse(Console.ReadLine());
+                            var temp = new Dictionary<byte[], byte[]>();
                             while (true)
                             {
                                 Console.WriteLine("Enter 'x' to stop entering values");
@@ -220,17 +242,11 @@ namespace Client
                                     Console.WriteLine("Enter a valid usage");
                                     continue;
                                 }
-                                temp.Add(month, usageMonth);
-                            }
-                            Expense expense = new Expense(id, region, city, year, temp);
-                            if (expense == null)
-                            {
-                                Console.WriteLine("There is no expense with given parameters.");
-                                continue;
+                                temp.Add(AES.Encrypt(month.ToString(), key), AES.Encrypt(usageMonth.ToString(), key));
                             }
                             Console.WriteLine("Encrypting expense for safety reasons...");
-                            byte[] cryptedExpense = AES.Encrypt(expense, key);
-                            proxy.AddNew(cryptedExpense);
+                            proxy.AddNew(AES.Encrypt(region, key), AES.Encrypt(year.ToString(), key),
+                                AES.Encrypt(city, key), temp);
                         }
                         catch (Exception e)
                         {
@@ -238,7 +254,7 @@ namespace Client
                             Console.WriteLine(e.Message);
                         }
                         break;
-                    case 6:
+                    case 7:
                         try
                         {
                             Console.WriteLine("Expense ID:");
@@ -258,7 +274,7 @@ namespace Client
                             Console.WriteLine(e.Message);
                         }
                         break;
-                    case 7:
+                    case 0:
                         Environment.Exit(0);
                         break;
                     default:
