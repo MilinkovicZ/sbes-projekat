@@ -27,7 +27,22 @@ namespace Client
         }
         static void Main(string[] args)
         {
-            string key = "yo mama"; //OVO POPRAVITI XD
+            Console.WriteLine("Unesite port na kom radite: (9000-9200)");
+            uint port = 0;
+            while (port < 9000 || port > 9200)
+            {
+                try
+                {
+                    port = UInt32.Parse(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Unesite validan broj (9000-9200)");
+                    port = 0;
+                }
+            }
+
+            string key = SecretKey.LoadKey(port);
 
             NetTcpBinding binding = new NetTcpBinding();
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9998/WCFService"));
