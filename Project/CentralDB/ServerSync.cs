@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Common;
+using Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CentralDB
@@ -28,6 +31,18 @@ namespace CentralDB
 
         public static void Send(string message)
         {
+            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
+            string userName = Formatter.ParseName(principal.Identity.Name);
+
+            try
+            {
+                Audit.SyncSuccess(userName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             sockets.ForEach(s => s.Send(ASCIIEncoding.UTF8.GetBytes(message), SocketFlags.None));
         }
 
