@@ -68,6 +68,11 @@ namespace Client
                     case 1:                        
                         //NEEDS FIXING PROBABLY
                         byte[] encodedData = proxy.ReadData();
+                        if (encodedData == null)
+                        {
+                            Console.WriteLine("There is no data.");
+                            break;
+                        }
                         List<Expense> expenses = AES.Decrypt<List<Expense>>(encodedData, key);
                         PrintList(expenses);
                         break;
@@ -77,6 +82,8 @@ namespace Client
                         Console.WriteLine("Encrypting regionAvg for safety reasons...");
                         byte[] cryptedRegionAvg = AES.Encrypt(regionAvg, key);
                         byte[] encodedDataRegionAvg = proxy.GetAverageValueForRegion(cryptedRegionAvg);
+                        if (encodedDataRegionAvg == null)
+                            Console.WriteLine("There is no data.");
                         Console.WriteLine("Decrypting recieved data for region average...");
                         double dataRegionAvg = AES.Decrypt<double>(encodedDataRegionAvg, key);
                         Console.WriteLine("Average expense for region: " + regionAvg + " is " + dataRegionAvg + ".");
@@ -87,6 +94,8 @@ namespace Client
                         Console.WriteLine("Encrypting cityAvg for safety reasons...");
                         byte[] cryptedCityAvg = AES.Encrypt(cityAvg, key);
                         byte[] encodedDataCityAvg = proxy.GetAverageValueForCity(cryptedCityAvg);
+                        if (encodedDataCityAvg == null)
+                            Console.WriteLine("There is no data.");
                         Console.WriteLine("Decrypting recieved data for city average...");
                         double dataCityAvg = AES.Decrypt<double>(encodedDataCityAvg, key);
                         Console.WriteLine("Average expense for city: " + cityAvg + " is " + dataCityAvg + ".");

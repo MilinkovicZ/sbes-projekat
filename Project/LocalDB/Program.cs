@@ -45,7 +45,18 @@ namespace LocalDB
 
             List<string> myRegions = new List<string>();
             // Unos regiona
+            string enter = "";
+            while (true)
+            {
+                Console.WriteLine("Enter region: ('x' if you want to finish)");
+                enter = Console.ReadLine();
+                if (enter == "" || enter == "x")
+                    break;
+                myRegions.Add(enter);
+            }
 
+            if (myRegions.Count == 0)
+                return;
 
             WCFClient proxy = new WCFClient(binding, address);
             WCFService service = new WCFService(proxy, SecretKey.LoadKey(port));
