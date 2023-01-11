@@ -24,13 +24,13 @@ namespace LocalDB
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9999/SecurityService"), 
                                       new X509CertificateEndpointIdentity(srvCert));
 
-            Console.WriteLine("Unesite port na kom radite: (9000-9200)");
             uint port = 0;
             while (port < 9000 || port > 9200)
             {
                 try
                 {
-                   port = UInt32.Parse(Console.ReadLine());
+                    Console.WriteLine("Unesite port na kom radite: (9000-9200)");
+                    port = UInt32.Parse(Console.ReadLine());
                 }
                 catch (Exception)
                 {
