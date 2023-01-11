@@ -22,16 +22,9 @@ namespace LocalDB
             this.key = key;
         }
 
-        public void AddNew(byte[] expense)
-        {
-            Expense decryptedExpense = AES.Decrypt<Expense>(expense, key);
-            Console.WriteLine("Adding new client expense");
-            proxy.Add(decryptedExpense);
-        }
-
         public void DeleteExpense(byte[] id)
         {
-            string idToDelete = AES.Decrypt<string>(id, key);
+            string idToDelete = AES.Decrypt(id, key);
             Console.WriteLine("Deleting expense with ID:" + idToDelete);
             proxy.Delete(idToDelete);
         }
@@ -39,7 +32,7 @@ namespace LocalDB
         public byte[] GetAverageValueForRegion(byte[] region)
         {
             double retVal = 0;            
-            string targetRegion = AES.Decrypt<string>(region, key);
+            string targetRegion = AES.Decrypt(region, key);
             List<Expense> expensesInRegion = db.GetExpenses();
             int counter = expensesInRegion.Count;
             foreach (var item in expensesInRegion)
@@ -50,13 +43,13 @@ namespace LocalDB
                 }
             }
 
-            return AES.Encrypt(retVal / counter, key);
+            return AES.Encrypt((retVal / counter).ToString(), key);
         }
 
         public byte[] GetAverageValueForCity(byte[] city)
         {
             double retVal = 0;
-            string targetCity = AES.Decrypt<string>(city, key);
+            string targetCity = AES.Decrypt(city, key);
             List<Expense> expensesInRegion = db.GetExpenses().FindAll(e => e.City == targetCity);
             int counter = expensesInRegion.Count;
             foreach (var item in expensesInRegion)
@@ -67,22 +60,54 @@ namespace LocalDB
                 }
             }
 
-            return AES.Encrypt(retVal / counter, key);
+            return AES.Encrypt((retVal / counter).ToString(), key);
         }
 
-        public byte[] ReadData()
+        public List<byte[]> ReadData()
         {
-            return AES.Encrypt(db.GetExpenses(), key);
+            var list = db.GetExpenses();
+            var ret = new List<byte[]>();
+            foreach (var item in list)
+            {
+                ret.Add(AES.Encrypt(item.ToString(), key));
+            }
+            return ret;
         }
 
-        public void UpdateCurrentMonthUsage(byte[] newValue, byte[] id)
-        {
-            double newValueDecrypted = AES.Decrypt<double>(newValue, key);
-            string idDecrypted = AES.Decrypt<string>(newValue, key);
 
-            Expense expense = db.GetExpense(idDecrypted);
-            expense.ExpensesPerMonth[DateTime.Now.Month] = newValueDecrypted;
-            proxy.Update(expense);
+        public void UpdateCurrentMonthUsage(byte[] region, byte[] city, byte[] value)
+        {
+            string _region = AES.Decrypt(region, key);
+            string _city = AES.Decrypt(city, key);
+            double _value = double.Parse(AES.Decrypt(value, key));
+            int _year = DateTime.Now.Year;
+            Expense e = db.GetExpenses().Find(t => t.Region == _region && t.Year == _year);
+            if(e == null)
+                e = new Expense(_region, _city, _year);
+            e.ExpensesPerMonth[DateTime.Now.Month] = _value;
+        }
+
+        public void AddNew(byte[] region, byte[] year, byte[] city, Dictionary<byte[], byte[]> expensesPerMonth)
+        {
+            string _region = AES.Decrypt(region, key);
+            string _city = AES.Decrypt(city, key);
+            int _year = int.Parse(AES.Decrypt(year, key));
+            Dictionary<int, double> exp = new Dictionary<int, double>();
+            foreach (var item in expensesPerMonth)
+            {
+                exp.Add(int.Parse(AES.Decrypt(item.Key, key)), double.Parse(AES.Decrypt(item.Value, key)));
+            }
+        }
+
+        public List<byte[]> ReadData(byte[] region)
+        {
+            var list = db.GetExpenses().FindAll(t => t.Region == AES.Decrypt(region, key));
+            var ret = new List<byte[]>();
+            foreach (var item in list)
+            {
+                ret.Add(AES.Encrypt(item.ToString(), key));
+            }
+            return ret;
         }
     }
 }

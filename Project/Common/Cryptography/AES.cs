@@ -11,26 +11,9 @@ namespace Common
 {
     public class AES
     {
-        static byte[] SerializeObjToByte(object obj)
+        public static byte[] Encrypt(string secret, string secretKey)
         {
-            using (var ms = new MemoryStream())
-            {
-                new BinaryFormatter().Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
-
-        static object DeserializeObjToByte(byte[] array)
-        {
-            using (var ms = new MemoryStream(array))
-            {
-               return new BinaryFormatter().Deserialize(ms);
-            }
-        }
-
-        public static byte[] Encrypt(object secret, string secretKey)
-        {
-            byte[] body = SerializeObjToByte(secret);  
+            byte[] body = ASCIIEncoding.UTF8.GetBytes(secret);  
             byte[] encryptedBody = null;
 
             AesCryptoServiceProvider aesCryptoProvider = new AesCryptoServiceProvider
@@ -54,7 +37,7 @@ namespace Common
             return encryptedBody;
         }
 
-        public static T Decrypt<T>(byte[] secret, string secretKey)
+        public static string Decrypt(byte[] secret, string secretKey)
         {
             byte[] body = secret;
             byte[] decryptedBody = null;
@@ -77,7 +60,7 @@ namespace Common
                 }
             }
 
-            return (T)DeserializeObjToByte(decryptedBody);
+            return ASCIIEncoding.UTF8.GetString(decryptedBody);
         }
     }
 }

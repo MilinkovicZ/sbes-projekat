@@ -12,26 +12,36 @@ namespace Common
         string id;
         string region;
         string city;
-        uint year;
+        int year;
         Dictionary<int, double> expensesPerMonth;
 
         public Expense()
         {
             ExpensesPerMonth = new Dictionary<int, double>();
         }
-        public Expense(string id, string region, string city, uint year, Dictionary<int, double> expensesPerMonth)
+        public Expense(string region, string city, int year)
         {
-            Id = id;
             Region = region;
             City = city;
             Year = year;
-            ExpensesPerMonth = expensesPerMonth;
+            ExpensesPerMonth = new Dictionary<int, double>();
         }
 
         public string Id { get => id; set => id = value; }
         public string Region { get => region; set => region = value; }
         public string City { get => city; set => city = value; }
-        public uint Year { get => year; set => year = value; }
+        public int Year { get => year; set => year = value; }
         public Dictionary<int, double> ExpensesPerMonth { get => expensesPerMonth; set => expensesPerMonth = value; }
+
+        public override string ToString()
+        {
+            var ret = $"{Id} {Region} {City} {Year}:";
+            foreach (var item in ExpensesPerMonth)
+            {
+                ret += $"\t{item.Key} : {item.Value}\n";
+            }
+            ret += '\n';
+            return ret;
+        }
     }
 }

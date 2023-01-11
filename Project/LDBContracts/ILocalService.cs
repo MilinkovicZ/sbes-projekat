@@ -12,15 +12,17 @@ namespace LDBContracts
     public interface ILocalService
     {
         [OperationContract]
-        byte[] ReadData();
+        List<byte[]> ReadData();
+        [OperationContract]
+        List<byte[]> ReadData(byte[] region);
         [OperationContract]
         byte[] GetAverageValueForRegion(byte[] region); //ako lokalDb moze da ima vise regiona, ako ne moze onda ne treba parametar.
         [OperationContract]
         byte[] GetAverageValueForCity(byte[] city);
         [OperationContract]
-        void UpdateCurrentMonthUsage(byte[] newValue, byte[] id);
+        void UpdateCurrentMonthUsage(byte[] region, byte[] city, byte[] value);
         [OperationContract]
-        void AddNew(byte[] expense);
+        void AddNew(byte[] region, byte[] year, byte[] city, Dictionary<byte[], byte[]> expensesPerMonth);
         [OperationContract]
         void DeleteExpense(byte[] id);
     }
