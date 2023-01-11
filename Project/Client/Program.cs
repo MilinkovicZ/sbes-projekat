@@ -80,6 +80,11 @@ namespace Client
                                 Console.WriteLine("There is no data.");
                                 break;
                             }
+                            if (encodedData.Count == 0)
+                            {
+                                Console.WriteLine("There is no expenses!");
+                                break;
+                            }
                             encodedData.ForEach(t => Console.WriteLine(AES.Decrypt(t, key)));
                         }
                         catch (Exception e)

@@ -16,12 +16,21 @@ namespace Common
         {
            this.path = AppDomain.CurrentDomain.BaseDirectory + path;
             if (!File.Exists(this.path))
-                File.WriteAllText(path, "{}");
+                File.WriteAllText(path, "[]");
         }
         
         public List<Expense> GetExpenses()
         {
-            var list = JsonConvert.DeserializeObject<List<Expense>>(File.ReadAllText(path));
+            List<Expense> list = null;
+            try
+            {
+                list = JsonConvert.DeserializeObject<List<Expense>>(File.ReadAllText(path));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             return list == null ? new List<Expense>() : list;
         }
 
