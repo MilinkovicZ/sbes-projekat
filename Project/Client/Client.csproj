@@ -52,6 +52,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CertificationManager\Manager.csproj">
+      <Project>{C402A668-C57F-4901-90C3-90DC601ED004}</Project>
+      <Name>Manager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{6E548ECB-F440-40A7-915E-A61F6CE7C76E}</Project>
       <Name>Common</Name>

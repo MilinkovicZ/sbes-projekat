@@ -1,7 +1,9 @@
 ﻿using Common;
+using Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,16 +44,18 @@ namespace Client
                 }
             }
 
-            string key = SecretKey.LoadKey(port);
 
             NetTcpBinding binding = new NetTcpBinding();
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:" + port.ToString() + "/WCFService"));
 
-            //binding.Security.Mode = SecurityMode.Transport;
-            //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
-            //binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+            binding.Security.Mode = SecurityMode.Transport;
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 
             WCFClient proxy = new WCFClient(binding,address);
+            X509Certificate2 cert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "Client");
+            byte[] encKey = proxy.GetKey(cert);
+            string key = ASCIIEncoding.UTF8.GetString(cert.GetRSAPrivateKey().Decrypt(encKey, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256));
 
             Console.WriteLine("WELCOME TO EXPENSE PROGRAM!\n\n");
 

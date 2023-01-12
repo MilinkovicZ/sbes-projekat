@@ -39,10 +39,8 @@ namespace LocalDB
                 }
             }
 
-            SecretKey.GenerateKey(port);
+            ServiceProperties.Key = SecretKey.GenerateKey();
             
-            //Podizanje servisa
-
             List<string> myRegions = new List<string>();
             // Unos regiona
             string enter = "";
@@ -59,16 +57,15 @@ namespace LocalDB
                 return;
 
             WCFClient proxy = new WCFClient(binding, address);
-            ServiceProperties.Key = SecretKey.LoadKey(port);
             ServiceProperties.Proxy = proxy;
 
             //Otvaranje Endpoint-a za clienta - Maybe fix
             NetTcpBinding bindingClient = new NetTcpBinding();
             string addressClient = "net.tcp://localhost:" + port.ToString() + "/WCFService";
 
-            //binding.Security.Mode = SecurityMode.Transport;
-            //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
-            //binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+            binding.Security.Mode = SecurityMode.Transport;
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 
             ServiceHost hostClient = new ServiceHost(typeof(WCFService));
             hostClient.AddServiceEndpoint(typeof(ILocalService), bindingClient, addressClient);

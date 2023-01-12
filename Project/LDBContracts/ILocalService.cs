@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,5 +26,7 @@ namespace LDBContracts
         void AddNew(byte[] region, byte[] year, byte[] city, Dictionary<byte[], byte[]> expensesPerMonth);
         [OperationContract]
         void DeleteExpense(byte[] id);
+        [OperationContract]
+        byte[] GetKey(X509Certificate2 certificate);
     }
 }

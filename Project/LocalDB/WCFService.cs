@@ -4,6 +4,7 @@ using LDBContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -108,6 +109,12 @@ namespace LocalDB
                 ret.Add(AES.Encrypt(item.ToString(), key));
             }
             return ret;
+        }
+
+        public byte[] GetKey(X509Certificate2 certificate)
+        {
+            var rsa = certificate.GetRSAPublicKey();
+            return rsa.Encrypt(ASCIIEncoding.UTF8.GetBytes(key), System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Client
 {
@@ -109,6 +110,20 @@ namespace Client
             try
             {
                 retVal = factory.ReadData();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return retVal;
+        }
+
+        public byte[] GetKey(X509Certificate2 certificate)
+        {
+            byte[] retVal = null;
+            try
+            {
+                retVal = factory.GetKey(certificate);
             }
             catch (Exception e)
             {
