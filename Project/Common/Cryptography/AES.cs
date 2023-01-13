@@ -20,7 +20,7 @@ namespace Common
             {
                 Key = secretKey,
                 Mode = CipherMode.CBC,
-                Padding = PaddingMode.None
+                Padding = PaddingMode.PKCS7
             };
 
             aesCryptoProvider.GenerateIV();
@@ -46,7 +46,7 @@ namespace Common
             {
                 Key = secretKey,
                 Mode = CipherMode.CBC,
-                Padding = PaddingMode.None
+                Padding = PaddingMode.PKCS7
             };
 
             aesCryptoProvider.IV = body.Take(aesCryptoProvider.BlockSize / 8).ToArray();
@@ -57,6 +57,7 @@ namespace Common
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, aesDecryptTransform, CryptoStreamMode.Read))
                 {
                     decryptedBody = new byte[body.Length - aesCryptoProvider.BlockSize / 8];
+                    cryptoStream.Read(decryptedBody, 0, decryptedBody.Length);
                 }
             }
 
