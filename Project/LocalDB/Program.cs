@@ -57,6 +57,8 @@ namespace LocalDB
                 return;
 
             WCFClient proxy = new WCFClient(binding, address);
+            DataBase db = new DataBase("data.json");
+            db.UpdateAll(proxy.Read(myRegions));
             ServiceProperties.Proxy = proxy;
 
             //Otvaranje Endpoint-a za clienta - Maybe fix
@@ -72,7 +74,7 @@ namespace LocalDB
 
             hostClient.Open();
             new ClientSync();
-            DataBase db = new DataBase("data.json");
+            
             using (Task t = Task.Run(() =>
             {
                 while (true)
@@ -87,6 +89,7 @@ namespace LocalDB
                 Console.ReadLine();
             }
             Console.ReadLine();
+            proxy.Close();
         }
     }
 }

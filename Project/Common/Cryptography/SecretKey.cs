@@ -13,7 +13,7 @@ namespace Common
 		public static string GenerateKey()
 		{
 			SymmetricAlgorithm symmAlgorithm = AesCryptoServiceProvider.Create();
-			return ASCIIEncoding.ASCII.GetString(symmAlgorithm.Key);
+			return ASCIIEncoding.UTF8.GetString(symmAlgorithm.Key);
 		}
 
     }

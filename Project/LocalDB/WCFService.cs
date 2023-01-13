@@ -83,9 +83,16 @@ namespace LocalDB
             double _value = double.Parse(AES.Decrypt(value, key));
             int _year = DateTime.Now.Year;
             Expense e = db.GetExpenses().Find(t => t.Region == _region && t.Year == _year);
-            if(e == null)
+            if (e == null)
+            {
                 e = new Expense(_region, _city, _year);
+                e.ExpensesPerMonth[DateTime.Now.Month] = _value;
+                proxy.Add(e);
+                return;
+            }
+
             e.ExpensesPerMonth[DateTime.Now.Month] = _value;
+            proxy.Update(e);
         }
 
         public void AddNew(byte[] region, byte[] year, byte[] city, Dictionary<byte[], byte[]> expensesPerMonth)
@@ -93,11 +100,12 @@ namespace LocalDB
             string _region = AES.Decrypt(region, key);
             string _city = AES.Decrypt(city, key);
             int _year = int.Parse(AES.Decrypt(year, key));
-            Dictionary<int, double> exp = new Dictionary<int, double>();
+            Expense exp = new Expense(_region, _city, _year);
             foreach (var item in expensesPerMonth)
             {
-                exp.Add(int.Parse(AES.Decrypt(item.Key, key)), double.Parse(AES.Decrypt(item.Value, key)));
+                exp.ExpensesPerMonth.Add(int.Parse(AES.Decrypt(item.Key, key)), double.Parse(AES.Decrypt(item.Value, key)));
             }
+            proxy.Add(exp);
         }
 
         public List<byte[]> ReadDataRegion(byte[] region)
