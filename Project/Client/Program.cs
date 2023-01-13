@@ -53,9 +53,12 @@ namespace Client
             binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 
             WCFClient proxy = new WCFClient(binding,address);
-            X509Certificate2 cert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "Client");
+            X509Certificate2 cert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "client");
             byte[] encKey = proxy.GetKey(cert);
-            string key = ASCIIEncoding.UTF8.GetString(cert.GetRSAPrivateKey().Decrypt(encKey, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256));
+            string key = ASCIIEncoding.UTF8.GetString(cert.GetRSAPrivateKey().Decrypt(encKey, 
+                System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256));
+
+            Console.WriteLine(key);
 
             Console.WriteLine("WELCOME TO EXPENSE PROGRAM!\n\n");
 
