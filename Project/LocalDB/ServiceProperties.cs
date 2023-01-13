@@ -10,6 +10,6 @@ namespace LocalDB
     class ServiceProperties
     {
         public static ISecurityService Proxy { get; set; }
-        public static string Key { get; set; }
+        public static byte[] Key { get; set; }
     }
 }

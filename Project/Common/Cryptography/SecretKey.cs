@@ -10,10 +10,10 @@ namespace Common
 {
     public class SecretKey
     {
-		public static string GenerateKey()
+		public static byte[] GenerateKey()
 		{
 			SymmetricAlgorithm symmAlgorithm = AesCryptoServiceProvider.Create();
-			return ASCIIEncoding.UTF8.GetString(symmAlgorithm.Key);
+			return symmAlgorithm.Key;
 		}
 
     }

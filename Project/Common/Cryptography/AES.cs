@@ -11,14 +11,14 @@ namespace Common
 {
     public class AES
     {
-        public static byte[] Encrypt(string secret, string secretKey)
+        public static byte[] Encrypt(string secret, byte[] secretKey)
         {
             byte[] body = ASCIIEncoding.UTF8.GetBytes(secret);  
             byte[] encryptedBody = null;
 
             AesCryptoServiceProvider aesCryptoProvider = new AesCryptoServiceProvider
             {
-                Key = ASCIIEncoding.ASCII.GetBytes(secretKey),
+                Key = secretKey,
                 Mode = CipherMode.CBC,
                 Padding = PaddingMode.None
             };
@@ -37,14 +37,14 @@ namespace Common
             return encryptedBody;
         }
 
-        public static string Decrypt(byte[] secret, string secretKey)
+        public static string Decrypt(byte[] secret, byte[] secretKey)
         {
             byte[] body = secret;
             byte[] decryptedBody = null;
 
             AesCryptoServiceProvider aesCryptoProvider = new AesCryptoServiceProvider
             {
-                Key = ASCIIEncoding.ASCII.GetBytes(secretKey),
+                Key = secretKey,
                 Mode = CipherMode.CBC,
                 Padding = PaddingMode.None
             };

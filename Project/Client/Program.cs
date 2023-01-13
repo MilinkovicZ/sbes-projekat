@@ -55,8 +55,7 @@ namespace Client
             WCFClient proxy = new WCFClient(binding,address);
             X509Certificate2 cert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "client");
             byte[] encKey = proxy.GetKey(cert);
-            string key = ASCIIEncoding.UTF8.GetString(cert.GetRSAPrivateKey().Decrypt(encKey, 
-                System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256));
+            byte[] key = cert.GetRSAPrivateKey().Decrypt(encKey, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
 
             Console.WriteLine(key);
 

@@ -16,7 +16,7 @@ namespace LocalDB
 
         ISecurityService proxy;
         DataBase db = new DataBase("data.json");
-        string key;
+        byte[] key;
         public WCFService()
         {
             this.proxy = ServiceProperties.Proxy;
@@ -122,7 +122,7 @@ namespace LocalDB
         public byte[] GetKey(X509Certificate2 certificate)
         {
             var rsa = certificate.GetRSAPublicKey();
-            return rsa.Encrypt(ASCIIEncoding.UTF8.GetBytes(key), System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
+            return rsa.Encrypt(key, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
         }
     }
 }
