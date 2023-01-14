@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Admins" xml:space="preserve">
-    <value>Read, Modify, Calculate, Administrate</value>
+    <value>Read,Modify,Calculate,Administrate</value>
   </data>
   <data name="Calculators" xml:space="preserve">
-    <value>Read, Calculate</value>
+    <value>Read,Calculate</value>
   </data>
   <data name="Modifiers" xml:space="preserve">
-    <value>Read, Modify, Calculate</value>
+    <value>Read,Modify,Calculate</value>
   </data>
   <data name="Readers" xml:space="preserve">
     <value>Read</value>

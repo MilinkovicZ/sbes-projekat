@@ -20,7 +20,7 @@ namespace Common
             {
                 Key = secretKey,
                 Mode = CipherMode.CBC,
-                Padding = PaddingMode.PKCS7
+                Padding = PaddingMode.Zeros
             };
 
             aesCryptoProvider.GenerateIV();
@@ -29,6 +29,10 @@ namespace Common
             {
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, aesEncryptTransform, CryptoStreamMode.Write))
                 {
+                    if (body.Length < 16)
+                    {
+                        Array.Resize(ref body, 16);
+                    }
                     cryptoStream.Write(body, 0, body.Length);
                     encryptedBody = aesCryptoProvider.IV.Concat(memoryStream.ToArray()).ToArray();
                 }
@@ -46,7 +50,7 @@ namespace Common
             {
                 Key = secretKey,
                 Mode = CipherMode.CBC,
-                Padding = PaddingMode.PKCS7
+                Padding = PaddingMode.Zeros
             };
 
             aesCryptoProvider.IV = body.Take(aesCryptoProvider.BlockSize / 8).ToArray();
@@ -57,11 +61,20 @@ namespace Common
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, aesDecryptTransform, CryptoStreamMode.Read))
                 {
                     decryptedBody = new byte[body.Length - aesCryptoProvider.BlockSize / 8];
-                    cryptoStream.Read(decryptedBody, 0, decryptedBody.Length);
+                    try
+                    {
+                        cryptoStream.Read(decryptedBody, 0, decryptedBody.Length);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
             }
 
-            return ASCIIEncoding.UTF8.GetString(decryptedBody);
+            string s = ASCIIEncoding.UTF8.GetString(decryptedBody).Replace("\0", "");
+
+            return s;
         }
     }
 }

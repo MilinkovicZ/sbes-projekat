@@ -91,7 +91,11 @@ namespace Client
                                 Console.WriteLine("There is no expenses!");
                                 break;
                             }
-                            encodedData.ForEach(t => Console.WriteLine(AES.Decrypt(t, key)));
+                            foreach (var item in encodedData)
+                            {
+                                string s = AES.Decrypt(item, key);
+                                Console.WriteLine(s);
+                            }
                         }
                         catch (Exception e)
                         {

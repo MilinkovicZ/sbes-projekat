@@ -61,7 +61,7 @@ namespace Manager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read, Modify, Calculate, Administrate.
+        ///   Looks up a localized string similar to Read,Modify,Calculate,Administrate.
         /// </summary>
         internal static string Admins {
             get {
@@ -70,7 +70,7 @@ namespace Manager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read, Calculate.
+        ///   Looks up a localized string similar to Read,Calculate.
         /// </summary>
         internal static string Calculators {
             get {
@@ -79,7 +79,7 @@ namespace Manager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read, Modify, Calculate.
+        ///   Looks up a localized string similar to Read,Modify,Calculate.
         /// </summary>
         internal static string Modifiers {
             get {

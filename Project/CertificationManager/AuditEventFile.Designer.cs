@@ -61,56 +61,38 @@ namespace Manager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} successfully added..
+        ///   Looks up a localized string similar to Added expense with id={0} successfully..
         /// </summary>
-        internal static string AddingSuccess {
+        internal static string Add {
             get {
-                return ResourceManager.GetString("AddingSuccess", resourceCulture);
+                return ResourceManager.GetString("Add", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} successfully deleted..
+        ///   Looks up a localized string similar to Deleted expense with id={0} successfully..
         /// </summary>
-        internal static string DeleteSuccess {
+        internal static string Delete {
             get {
-                return ResourceManager.GetString("DeleteSuccess", resourceCulture);
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} failed to {1}. Reason: {2}..
+        ///   Looks up a localized string similar to Synced local data base with region={0} successfully..
         /// </summary>
-        internal static string ModifyFailure {
+        internal static string Sync {
             get {
-                return ResourceManager.GetString("ModifyFailure", resourceCulture);
+                return ResourceManager.GetString("Sync", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User {0} failed to {1}. Reason: {2}..
+        ///   Looks up a localized string similar to Updated expense with id={0} successfully..
         /// </summary>
-        internal static string SyncFailure {
+        internal static string Update {
             get {
-                return ResourceManager.GetString("SyncFailure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User {0} successfully synced..
-        /// </summary>
-        internal static string SyncSuccess {
-            get {
-                return ResourceManager.GetString("SyncSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User {0} successfully updated..
-        /// </summary>
-        internal static string UpdateSuccess {
-            get {
-                return ResourceManager.GetString("UpdateSuccess", resourceCulture);
+                return ResourceManager.GetString("Update", resourceCulture);
             }
         }
     }

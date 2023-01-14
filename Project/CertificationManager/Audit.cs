@@ -11,7 +11,7 @@ namespace Manager
     {
 
         private static EventLog customLog = null;
-        const string SourceName = "SecurityManager.Audit";
+        const string SourceName = "Manager.Audit";
         const string LogName = "MySecTest";
 
         static Audit()
@@ -33,105 +33,71 @@ namespace Manager
         }
 
 
-        public static void AddingSuccess(string userName)
+        public static void Add(string data)
         {
             if (customLog != null)
             {
                 string UserAddingSuccess =
-                    AuditEvents.AddingSuccess;
+                    AuditEvents.Add;
                 string message = String.Format(UserAddingSuccess,
-                    userName);
+                    data);
                 customLog.WriteEntry(message);
             }
             else
             {
                 throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.",
-                    (int)AuditEventTypes.AddingSuccess));
+                    (int)AuditEventTypes.Add));
             }
         }
 
-        public static void UpdateSuccess(string userName)
-        {
-            if (customLog != null)
-            {
-                string UserUpdatingSuccess =
-                    AuditEvents.UpdateSuccess;
-                string message = String.Format(UserUpdatingSuccess,
-                    userName);
-                customLog.WriteEntry(message);
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.",
-                    (int)AuditEventTypes.UpdateSuccess));
-            }
-        }
-
-        public static void DeleteSuccess(string userName)
+        public static void Delete(string data)
         {
             if (customLog != null)
             {
                 string UserDeleteSuccess =
-                    AuditEvents.DeleteSuccess;
+                    AuditEvents.Delete;
                 string message = String.Format(UserDeleteSuccess,
-                    userName);
+                    data);
                 customLog.WriteEntry(message);
             }
             else
             {
                 throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.",
-                    (int)AuditEventTypes.DeleteSuccess));
+                    (int)AuditEventTypes.Delete));
             }
         }
 
-        public static void ModifyFailure(string userName, string type, string reason)
+        public static void Update(string data)
         {
             if (customLog != null)
             {
-                string ModifyFailed =
-                    AuditEvents.ModifyFailure;
-                string message = String.Format(ModifyFailed,
-                    userName, type, reason);
+                string UserUpdatingSuccess =
+                    AuditEvents.Update;
+                string message = String.Format(UserUpdatingSuccess,
+                    data);
                 customLog.WriteEntry(message);
             }
             else
             {
                 throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.",
-                    (int)AuditEventTypes.ModifyFailure));
+                    (int)AuditEventTypes.Update));
             }
         }
 
-        public static void SyncSuccess(string userName)
+        public static void Sync(string data)
         {
             if (customLog != null)
             {
                 string UserSyncSuccess =
-                    AuditEvents.SyncSuccess;
+                    AuditEvents.Sync;
                 string message = String.Format(UserSyncSuccess,
-                    userName);
+                    data);
                 customLog.WriteEntry(message);
             }
             else
             {
                 throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.",
-                    (int)AuditEventTypes.SyncSuccess));
-            }
-        }
-
-        public static void SyncFailure(string userName, string type, string reason)
-        {
-            if (customLog != null)
-            {
-                string SyncFailed =
-                    AuditEvents.SyncFailure;
-                string message = String.Format(SyncFailed,
-                    userName, type, reason);
-                customLog.WriteEntry(message);
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("Error while trying to write event (eventid = {0}) to event log.",
-                    (int)AuditEventTypes.SyncFailure));
+                    (int)AuditEventTypes.Sync));
             }
         }
 

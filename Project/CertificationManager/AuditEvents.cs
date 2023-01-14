@@ -10,12 +10,10 @@ namespace Manager
 {
 	public enum AuditEventTypes
 	{
-		AddingSuccess = 0,
-		UpdateSuccess = 1,
-		DeleteSuccess = 2,
-		ModifyFailure = 3,
-		SyncSuccess = 4,
-		SyncFailure = 5
+		Add = 0,
+		Delete = 1,
+		Update = 2,
+		Sync = 3
 	}
 
 	public class AuditEvents
@@ -40,51 +38,35 @@ namespace Manager
 			}
 		}
 
-		public static string AddingSuccess
+		public static string Add
 		{
 			get
 			{
-				return ResourceMgr.GetString(AuditEventTypes.AddingSuccess.ToString());
+				return ResourceMgr.GetString(AuditEventTypes.Add.ToString());
 			}
 		}
 
-		public static string UpdateSuccess
+		public static string Delete
 		{
 			get
 			{
-				return ResourceMgr.GetString(AuditEventTypes.UpdateSuccess.ToString());
+				return ResourceMgr.GetString(AuditEventTypes.Delete.ToString());
 			}
 		}
 
-		public static string DeleteSuccess
+		public static string Update
 		{
 			get
 			{
-				return ResourceMgr.GetString(AuditEventTypes.DeleteSuccess.ToString());
+				return ResourceMgr.GetString(AuditEventTypes.Update.ToString());
 			}
 		}
 
-		public static string ModifyFailure
+		public static string Sync
 		{
 			get
 			{
-				return ResourceMgr.GetString(AuditEventTypes.ModifyFailure.ToString());
-			}
-		}
-
-		public static string SyncSuccess
-		{
-			get
-			{
-				return ResourceMgr.GetString(AuditEventTypes.SyncSuccess.ToString());
-			}
-		}
-
-		public static string SyncFailure
-		{
-			get
-			{
-				return ResourceMgr.GetString(AuditEventTypes.SyncFailure.ToString());
+				return ResourceMgr.GetString(AuditEventTypes.Sync.ToString());
 			}
 		}
 	}

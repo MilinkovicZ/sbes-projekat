@@ -23,7 +23,8 @@ namespace LocalDB
         public static string Receive()
         {
             byte[] buffer = new byte[1024];
-            socket.Receive(buffer, SocketFlags.None);
+            int size = socket.Receive(buffer, SocketFlags.None);
+            Array.Resize(ref buffer, size);
             return ASCIIEncoding.UTF8.GetString(buffer);
         }
     }

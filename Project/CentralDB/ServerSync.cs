@@ -31,19 +31,17 @@ namespace CentralDB
 
         public static void Send(string message)
         {
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            string userName = Formatter.ParseName(principal.Identity.Name);
-
             try
             {
-                Audit.SyncSuccess(userName);
+                Audit.Sync(message);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
 
-            sockets.ForEach(s => s.Send(ASCIIEncoding.UTF8.GetBytes(message), SocketFlags.None));
+            byte[] forSend = ASCIIEncoding.UTF8.GetBytes(message);
+            sockets.ForEach(s => s.Send(forSend, SocketFlags.None));
         }
 
         public static void Close()

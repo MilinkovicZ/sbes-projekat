@@ -10,6 +10,8 @@ using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.ServiceModel.Description;
+using System.IdentityModel.Policy;
 
 namespace CentralDB
 {
@@ -19,7 +21,9 @@ namespace CentralDB
         {
             string srvCertName = "CentralDBCA";
             NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Mode = SecurityMode.Transport;
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 
             string address = "net.tcp://localhost:9999/SecurityService";
             ServiceHost host = new ServiceHost(typeof(SecurityService));
@@ -32,6 +36,17 @@ namespace CentralDB
             host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertName);
+
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+
+            ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
+            newAudit.AuditLogLocation = AuditLogLocation.Application;
+            newAudit.ServiceAuthorizationAuditLevel = AuditLevel.SuccessOrFailure;
+
+            host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
+            host.Description.Behaviors.Add(newAudit);
+
             try
             {
                 host.Open();

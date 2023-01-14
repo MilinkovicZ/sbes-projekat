@@ -38,9 +38,8 @@ namespace Common
             var ret = $"{Id} {Region} {City} {Year}:";
             foreach (var item in ExpensesPerMonth)
             {
-                ret += $"\t{item.Key} : {item.Value}\n";
+                ret += $" {item.Key} : {item.Value}, ";
             }
-            ret += '\n';
             return ret;
         }
     }

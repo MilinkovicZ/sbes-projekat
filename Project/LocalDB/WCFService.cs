@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +24,7 @@ namespace LocalDB
             this.key = ServiceProperties.Key;
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "Administrate")]
         public void DeleteExpense(byte[] id)
         {
             string idToDelete = AES.Decrypt(id, key);
@@ -30,6 +32,7 @@ namespace LocalDB
             proxy.Delete(idToDelete);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "Calculate")]
         public byte[] GetAverageValueForRegion(byte[] region)
         {
             double retVal = 0;            
@@ -47,6 +50,7 @@ namespace LocalDB
             return AES.Encrypt((retVal / counter).ToString(), key);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "Calculate")]
         public byte[] GetAverageValueForCity(byte[] city)
         {
             double retVal = 0;
@@ -64,6 +68,7 @@ namespace LocalDB
             return AES.Encrypt((retVal / counter).ToString(), key);
         }
 
+
         public List<byte[]> ReadData()
         {
             var list = db.GetExpenses();
@@ -75,7 +80,7 @@ namespace LocalDB
             return ret;
         }
 
-
+        [PrincipalPermission(SecurityAction.Demand, Role = "Modify")]
         public void UpdateCurrentMonthUsage(byte[] region, byte[] city, byte[] value)
         {
             string _region = AES.Decrypt(region, key);
@@ -95,6 +100,7 @@ namespace LocalDB
             proxy.Update(e);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "Administrate")]
         public void AddNew(byte[] region, byte[] year, byte[] city, Dictionary<byte[], byte[]> expensesPerMonth)
         {
             string _region = AES.Decrypt(region, key);

@@ -117,22 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddingSuccess" xml:space="preserve">
-    <value>User {0} successfully added.</value>
+  <data name="Add" xml:space="preserve">
+    <value>Added expense with id={0} successfully.</value>
   </data>
-  <data name="DeleteSuccess" xml:space="preserve">
-    <value>User {0} successfully deleted.</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Deleted expense with id={0} successfully.</value>
   </data>
-  <data name="ModifyFailure" xml:space="preserve">
-    <value>User {0} failed to {1}. Reason: {2}.</value>
+  <data name="Sync" xml:space="preserve">
+    <value>Synced local data base with region={0} successfully.</value>
   </data>
-  <data name="SyncFailure" xml:space="preserve">
-    <value>User {0} failed to {1}. Reason: {2}.</value>
-  </data>
-  <data name="SyncSuccess" xml:space="preserve">
-    <value>User {0} successfully synced.</value>
-  </data>
-  <data name="UpdateSuccess" xml:space="preserve">
-    <value>User {0} successfully updated.</value>
+  <data name="Update" xml:space="preserve">
+    <value>Updated expense with id={0} successfully.</value>
   </data>
 </root>

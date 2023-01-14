@@ -16,30 +16,25 @@ namespace CentralDB
         DataBase db = new DataBase("data.json");
         public void Add(Expense expense)
         {
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            string userName = Formatter.ParseName(principal.Identity.Name);
-
+            db.Add(expense);
             try
             {
-                Audit.AddingSuccess(userName);
+                Audit.Add(expense.Id);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
 
-            db.Add(expense);
+           
             ServerSync.Send(expense.Region);
         }
 
         public void Delete(string id)
         {
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            string userName = Formatter.ParseName(principal.Identity.Name);
-
             try
             {
-                Audit.DeleteSuccess(userName);
+                Audit.Delete(id);
             }
             catch (Exception e)
             {
@@ -60,12 +55,9 @@ namespace CentralDB
 
         public void Update(Expense expense)
         {
-            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            string userName = Formatter.ParseName(principal.Identity.Name);
-
             try
             {
-                Audit.UpdateSuccess(userName);
+                Audit.Update(expense.Id);
             }
             catch (Exception e)
             {

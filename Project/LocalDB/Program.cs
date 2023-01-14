@@ -8,6 +8,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.ServiceModel.Description;
+using System.IdentityModel.Policy;
 
 namespace LocalDB
 {
@@ -73,6 +75,13 @@ namespace LocalDB
 
             ServiceHost hostClient = new ServiceHost(typeof(WCFService));
             hostClient.AddServiceEndpoint(typeof(ILocalService), bindingClient, addressClient);
+
+            hostClient.Authorization.ServiceAuthorizationManager = new CustomAuthorizationManager();
+
+            hostClient.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
+            List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
+            policies.Add(new CustomAuthorizationPolicy());
+            hostClient.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
 
             hostClient.Open();
             new ClientSync();
