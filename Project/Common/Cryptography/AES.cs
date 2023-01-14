@@ -29,10 +29,9 @@ namespace Common
             {
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, aesEncryptTransform, CryptoStreamMode.Write))
                 {
-                    if (body.Length < 16)
-                    {
-                        Array.Resize(ref body, 16);
-                    }
+                   
+                    Array.Resize(ref body, body.Length + body.Length % 16);
+                    
                     cryptoStream.Write(body, 0, body.Length);
                     encryptedBody = aesCryptoProvider.IV.Concat(memoryStream.ToArray()).ToArray();
                 }
