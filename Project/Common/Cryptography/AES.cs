@@ -30,7 +30,7 @@ namespace Common
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, aesEncryptTransform, CryptoStreamMode.Write))
                 {
                    
-                    Array.Resize(ref body, body.Length + body.Length % 16);
+                    Array.Resize(ref body, body.Length + 16 - body.Length % 16);
                     
                     cryptoStream.Write(body, 0, body.Length);
                     encryptedBody = aesCryptoProvider.IV.Concat(memoryStream.ToArray()).ToArray();
