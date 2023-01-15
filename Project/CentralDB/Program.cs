@@ -19,7 +19,7 @@ namespace CentralDB
     {
         static void Main(string[] args)
         {
-            string srvCertName = "CentralDBCA";
+            string srvCertName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "CA";
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Mode = SecurityMode.Transport;
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
