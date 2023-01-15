@@ -9,7 +9,7 @@ namespace Common
     [Serializable]
     public class Expense
     {
-        string id;
+        string id = null;
         string region;
         string city;
         int year;
@@ -35,12 +35,11 @@ namespace Common
 
         public override string ToString()
         {
-            var ret = $"{Id} {Region} {City} {Year}:\n";
+            var ret = $"ID:{Id}\n Region:{Region}\n City:{City}\n Year:{Year}\n Expenses per month:\n";
             foreach (var item in ExpensesPerMonth)
             {
-                ret += $"  {item.Key} : {item.Value}\n";
+                ret += $" {item.Key}: {item.Value}\n";
             }
-            ret += "\n";
             return ret;
         }
     }

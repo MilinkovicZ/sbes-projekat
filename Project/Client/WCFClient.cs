@@ -28,7 +28,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
         }
 
@@ -41,7 +41,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
         }
 
@@ -55,7 +55,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
 
             return retVal;
@@ -71,7 +71,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
 
             return retVal;
@@ -86,7 +86,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
             return retVal;
         }
@@ -100,7 +100,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
         }
 
@@ -113,7 +113,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
             return retVal;
         }
@@ -127,7 +127,7 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw e;
             }
             return retVal;
         }

@@ -11,5 +11,7 @@ namespace LocalDB
     {
         public static ISecurityService Proxy { get; set; }
         public static byte[] Key { get; set; }
+        public static List<string> Regions { get; set; }
+        public static DataBase Database { get; set; }
     }
 }

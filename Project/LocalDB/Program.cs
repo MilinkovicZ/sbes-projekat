@@ -59,10 +59,10 @@ namespace LocalDB
 
             if (myRegions.Count == 0)
                 return;
-
+            ServiceProperties.Regions = myRegions;
             WCFClient proxy = new WCFClient(binding, address);
-            DataBase db = new DataBase("data.json");
-            db.UpdateAll(proxy.Read(myRegions));
+            ServiceProperties.Database = new DataBase($"data_{port}.json");
+            ServiceProperties.Database.UpdateAll(proxy.Read(myRegions));
             ServiceProperties.Proxy = proxy;
 
             //Otvaranje Endpoint-a za clienta - Maybe fix
@@ -92,7 +92,7 @@ namespace LocalDB
                 {
                     string s = ClientSync.Receive();
                     if (myRegions.Contains(s))
-                        db.UpdateAll(proxy.Read(myRegions));
+                        ServiceProperties.Database.UpdateAll(proxy.Read(myRegions));
                 }
             }))
             {
