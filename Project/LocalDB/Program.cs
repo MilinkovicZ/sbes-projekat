@@ -42,8 +42,6 @@ namespace LocalDB
             }
 
             ServiceProperties.Key = SecretKey.GenerateKey();
-
-            Console.WriteLine(ServiceProperties.Key);
             
             List<string> myRegions = new List<string>();
             // Unos regiona

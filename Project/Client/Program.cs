@@ -57,8 +57,6 @@ namespace Client
             byte[] encKey = proxy.GetKey(cert);
             byte[] key = cert.GetRSAPrivateKey().Decrypt(encKey, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
 
-            Console.WriteLine(key);
-
             Console.WriteLine("WELCOME TO EXPENSE PROGRAM!\n\n");
 
             while (true)
