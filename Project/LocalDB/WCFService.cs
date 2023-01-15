@@ -42,8 +42,11 @@ namespace LocalDB
             string targetRegion = AES.Decrypt(region, key);
             if (!ServiceProperties.Regions.Contains(targetRegion))
                 throw new FaultException("Region doesn't exist in current local database");
-            List<Expense> expensesInRegion = db.GetExpenses();
+            List<Expense> expensesInRegion = db.GetExpenses().FindAll(e => e.Region == targetRegion);
             int counter = expensesInRegion.Count;
+
+            if (counter == 0)
+                throw new FaultException("No data in region");
 
             foreach (var item in expensesInRegion)
             {

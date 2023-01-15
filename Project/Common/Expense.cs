@@ -35,10 +35,10 @@ namespace Common
 
         public override string ToString()
         {
-            var ret = $"ID:{Id}\n Region:{Region}\n City:{City}\n Year:{Year}\n Expenses per month:\n";
+            var ret = $"ID:{Id}\nRegion:{Region}\nCity:{City}\nYear:{Year}\nExpenses per month:\n";
             foreach (var item in ExpensesPerMonth)
             {
-                ret += $" {item.Key}: {item.Value}\n";
+                ret += $"\t{item.Key}: {item.Value}\n";
             }
             return ret;
         }

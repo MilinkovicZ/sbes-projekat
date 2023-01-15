@@ -51,7 +51,7 @@ namespace Common
         public void Add(Expense expense)
         {
             var list = GetExpenses();
-            if (expense.Id != null)
+            if (expense.Id == null)
                 expense.Id = DateTime.Now.ToString("yyyyMMddHHmmssffff");
             list.Add(expense);
             File.WriteAllText(path, JsonConvert.SerializeObject(list));
